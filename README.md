@@ -1,39 +1,125 @@
-class ParkingLotSystem:
+import re
 
-    def __init__(self):
-        self.vehicles = {}
 
-    def add_vehicle(self, vehicle_no: str, owner: str, slot: str) -> dict:
-        if vehicle_no in self.vehicles:
-            raise ValueError("Vehicle already exists")
+class WordFrequencyCounter:
 
-        self.vehicles[vehicle_no] = {
-            "owner": owner,
-            "slot": slot,
-            "status": "Parked"
-        }
+    def preprocess_text(self, text: str) -> list:
+        text = text.lower()
+        text = re.sub(r'[^\w\s]', '', text)
+        words = text.split()
+        return words
 
-        return self.vehicles
+    def compute_word_frequency(self, words: list) -> dict:
+        freq = {}
 
-    def update_slot(self, vehicle_no: str, new_slot: str) -> dict:
-        if vehicle_no not in self.vehicles:
-            raise KeyError("Vehicle not found")
+        for word in words:
+            freq[word] = freq.get(word, 0) + 1
 
-        self.vehicles[vehicle_no]["slot"] = new_slot
+        return freq
 
-        return self.vehicles
+    def get_most_frequent_word(self, freq_dict: dict) -> tuple:
+        if not freq_dict:
+            return None
 
-    def get_vehicle_details(self, vehicle_no: str) -> dict:
-        if vehicle_no not in self.vehicles:
-            raise KeyError("Vehicle not found")
+        word = max(freq_dict, key=lambda x: freq_dict[x])
+        return (word, freq_dict[word])
 
-        return self.vehicles[vehicle_no]
+    def filter_words_by_frequency(self, freq_dict: dict, n: int) -> dict:
+        if n <= 0:
+            return {}
 
-    def vehicles_by_zone(self, zone_prefix: str) -> list:
-        result = []
+        result = {}
 
-        for vehicle_no, details in self.vehicles.items():
-            if details["slot"].startswith(zone_prefix):
-                result.append(vehicle_no)
+        for word, count in freq_dict.items():
+            if count >= n:
+                result[word] = count
 
         return result
+
+import pandas as pd
+
+
+class AttendanceAnalyzer:
+
+    def create_attendance_df(self, data: list) -> pd.DataFrame:
+        columns = ["EmployeeID", "Department", "Date", "Attendance"]
+
+        df = pd.DataFrame(data, columns=columns)
+
+        return df
+
+    def compute_monthly_attendance_rate(self, df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+
+        df["Month"] = df["Date"].str[:7]
+
+        total = (
+            df.groupby(["EmployeeID", "Month"])
+            .size()
+            .reset_index(name="Total")
+        )
+
+        present_df = df[df["Attendance"] == "Present"]
+
+        present = (
+            present_df.groupby(["EmployeeID", "Month"])
+            .size()
+            .reset_index(name="Present")
+        )
+
+        result = total.merge(
+            present,
+            on=["EmployeeID", "Month"],
+            how="left"
+        )
+
+        result["Present"] = result["Present"].fillna(0)
+
+        result["Attendance Rate"] = (
+            result["Present"] / result["Total"]
+        ) * 100
+
+        result = result[["EmployeeID", "Month", "Attendance Rate"]]
+
+        return result
+
+    def add_absence_flag(self, df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+
+        df["IsAbsent"] = (
+            (df["Attendance"] == "Absent")
+            .astype(int)
+        )
+
+        return df
+
+    def high_absentees(self, df: pd.DataFrame, threshold: int) -> pd.DataFrame:
+        absent_df = df[df["Attendance"] == "Absent"]
+
+        result = (
+            absent_df.groupby("EmployeeID")
+            .size()
+            .reset_index(name="Absence Count")
+        )
+
+        result = result[result["Absence Count"] > threshold]
+
+        return result.reset_index(drop=True)
+
+    def department_attendance_summary(self, df: pd.DataFrame) -> pd.DataFrame:
+        result = pd.crosstab(
+            df["Department"],
+            df["Attendance"]
+        )
+
+        result = result.reindex(
+            columns=["Present", "Absent", "Leave"],
+            fill_value=0
+        )
+
+        result.columns.name = None
+
+        result = result.reset_index()
+
+        return result
+        
