@@ -1,0 +1,134 @@
+Low-Level Design (LLD) - Instagram Reel Trend Engagement Analysis
+Difficulty Level: Medium
+ Technology: NumPy
+ Total Marks: 20
+ Standards Followed: 6 Functions | 5 Visible Test Cases | 3 Hidden Test Cases
+Problem Statement
+A social media analytics team tracks Instagram Reel engagement trends for creators. Each value in a NumPy array represents the number of views received by a reel on a specific day.
+Your task is to build NumPy-based functions that can:
+Create a views array
+Validate the views array
+Compute engagement metrics
+Categorize trend levels
+Find the longest growth streak
+Format view counts for reports
+All functions must use NumPy arrays as input/output wherever applicable.
+Function Rules
+NumPy questions are function-based.
+Do not create a class.
+Implement all functions at module level.
+Use exact function names and parameters.
+Return NumPy arrays where the expected output is array-based.
+Do not use Pandas.
+Concepts Tested
+NumPy array creation
+Array validation
+Numeric aggregation
+Conditional labeling
+Trend/growth analysis
+Formatting numeric values
+Operations
+1. Create Views Array
+Creates a NumPy array from daily Instagram Reel views.
+Function Prototype:
+def create_views_array(views_data: list) -> np.ndarray:
+Example Input:
+create_views_array([1200, 3500, 1800, 5200, 7600])
+Expected Output:
+np.array([1200, 3500, 1800, 5200, 7600])
+Implementation Flow:
+Convert the input list into a NumPy array.
+Use dtype=np.int64.
+Return the resulting array.
+2. Validate Views Array
+Checks whether the views array contains valid non-negative numeric values.
+Function Prototype:
+def validate_views_array(views_array: np.ndarray) -> bool:
+Example Input:
+validate_views_array(np.array([1200, 3500, -1800, 5200]))
+Expected Output:
+False
+Implementation Flow:
+Check that the array is not empty.
+Check that the array data type is numeric using np.issubdtype.
+Check that all values are greater than or equal to 0.
+Return True if all conditions pass, otherwise return False.
+3. Compute View Metrics
+Returns total views, average views, and maximum views.
+Function Prototype:
+def compute_view_metrics(views_array: np.ndarray) -> tuple:
+Example Input:
+compute_view_metrics(np.array([1200, 3500, 1800, 5200, 7600]))
+Expected Output:
+(19300, 3860.0, 7600)
+Implementation Flow:
+Use np.sum() to calculate total views.
+Use np.mean() to calculate average views.
+Use np.max() to calculate maximum views.
+Convert total and maximum values to int.
+Round average views to 2 decimal places.
+Return a tuple in the format:
+(total_views, average_views, maximum_views)
+4. Categorize Trend Levels
+Labels each day’s reel views as "Low Trend", "Moderate Trend", or "Viral Trend".
+Function Prototype:
+def categorize_trend_levels(views_array: np.ndarray) -> np.ndarray:
+Example Input:
+categorize_trend_levels(np.array([1200, 3500, 1800, 5200, 7600]))
+Expected Output:
+np.array(["Low Trend", "Moderate Trend", "Low Trend", "Viral Trend", "Viral Trend"])
+Implementation Flow:
+Apply the following trend rules:
+Views < 3000 → "Low Trend"
+Views 3000 to 4999 → "Moderate Trend"
+Views >= 5000 → "Viral Trend"
+Return a NumPy array of trend labels.
+5. Find Longest Growth Streak
+Finds the longest sequence of consecutive days where views increased compared to the previous day.
+Function Prototype:
+def longest_growth_streak(views_array: np.ndarray) -> int:
+Example Input:
+longest_growth_streak(np.array([1200, 1800, 2500, 2100, 3300, 5200, 7600]))
+Expected Output:
+4
+Implementation Flow:
+Compare each day’s views with the previous day’s views.
+Track consecutive increases.
+Return the longest increasing streak length in number of days.
+For an empty array, return 0.
+For a single-value array, return 1.
+6. Format View Counts
+Formats view counts with comma separators for reporting.
+Function Prototype:
+def format_view_counts(views_array: np.ndarray) -> np.ndarray:
+Example Input:
+format_view_counts(np.array([1200, 35000, 1800000]))
+Expected Output:
+np.array(["1,200", "35,000", "1,800,000"])
+Implementation Flow:
+Convert each view count into a formatted string.
+Use comma separators.
+Return the formatted values as a NumPy array.
+Test Cases and Marks Allocation
+Sample Input Data
+views = np.array([1200, 3500, 1800, 5200, 7600])
+Sample Expected Results
+validate_views_array(views)
+# True
+compute_view_metrics(views)
+# (19300, 3860.0, 7600)
+categorize_trend_levels(views)
+# ["Low Trend", "Moderate Trend", "Low Trend", "Viral Trend", "Viral Trend"]
+longest_growth_streak(views)
+# 3
+format_view_counts(views)
+# ["1,200", "3,500", "1,800", "5,200", "7,600"]
+Test Case ID | Type | Function | Validation Focus | Marks
+TC1 | Visible | create_views_array() | Creates int64 NumPy array from list | 2.5
+TC2 | Visible | validate_views_array() | Rejects array with negative values | 2.5
+TC3 | Visible | compute_view_metrics() | Returns total, average, and max views | 3
+TC4 | Visible | categorize_trend_levels() | Applies trend labels correctly | 3
+TC5 | Visible | longest_growth_streak() | Finds longest increasing view streak | 3
+HTC1 | Hidden | format_view_counts() | Formats large numbers with commas | 2
+HTC2 | Hidden | validate_views_array() | Rejects empty or non-numeric arrays | 2
+HTC3 | Hidden | categorize_trend_levels() | Handles boundary values 3000 and 5000 correctly | 2
