@@ -1,0 +1,106 @@
+MileStone 1 Sample Questions
+SQL:
+
+Easy: Customer with the Highest Value Order
+Database Description
+The retail_store database is structured to manage and analyze key transactional and operational data within a retail environment. It captures detailed information about customers, product inventory, orders, and item-level purchases. This schema supports querying customer purchase behavior, product sales performance, and order histories, enabling insights into customer trends, product demand, and overall business operations.
+
+Problem Statement
+Management wants to know which customer placed the single highest-value order. You need to find and return the customer’s name along with the order_id and total_amount of that order.
+
+Query to be Implemented
+Write a query that uses a single-row subquery to find:
+order_id
+customer_name
+total_amount
+for the order with the maximum total_amount in the Orders table.
+
+Expected Output
+
+SQL Easy: Student Enrollments with Grades and Department Names
+Database Description
+The university_core database is designed to manage and organize essential academic information within a university setting. It maintains comprehensive records of departments, students, courses, and enrollments. The system facilitates tracking of student-course registrations, departmental offerings, and student grades, supporting academic administration and reporting needs.
+
+Problem Statement
+Generate a report listing every student along with the courses they are enrolled in, the grades they have received, and the departments offering those courses. This report provides a complete academic view of student performance along with academic affiliations.
+
+Query to be Implemented
+Write a single SQL query to fetch the following details for each student-course enrollment:
+student_id
+student_name
+course_id
+course_name
+grade
+department_name (offering the course)
+
+Expected Output
+
+SQL Easy: Calculate the average assignment score per course
+Calculate the average assignment score per course
+Table 1 - Students
+Table 2 - Instructor
+Table 3 - Courses
+Table 4 - Enrollment
+Table 5 - Assignments
+Table 6 - Submissions
+
+Join suitable tables to get course name & average score
+
+Sample Schema
+Student Schema
+Instructor Schema
+Courses Schema
+Enrollment Schema
+Assignments
+Submissions
+
+Expected Output
+
+SQL MEDIUM: Highest-Revenue Doctor per Department
+Problem Statement
+A hospital administration system tracks appointments and billing for doctors across multiple departments.
+Each doctor belongs to a specific department, and each completed appointment generates a bill recorded in the Bills table.
+You are asked to generate a report that shows the top-earning doctors within each department, based on the total billed amount from all their appointments.
+For every doctor, compute:
+The department name
+The doctor name
+The total revenue generated (sum of all their bill amounts)
+The rank of that doctor within the department (highest revenue = rank 1)
+Use RANK() (not ROW_NUMBER), so that if two doctors have the same total revenue, they receive the same rank.
+
+Required output columns
+department_name
+doctor_name
+total_revenue
+revenue_rank
+
+SQL Medium: Students Ranked by Course Enrollments
+Database Description
+The University Core database is designed to manage and organize essential academic information within a university setting. It maintains comprehensive records of departments, students, courses, and enrollments. The system facilitates the tracking of student-course registrations, departmental offerings, and the grading history of students, ensuring efficient academic administration and reporting.
+
+Problem Statement
+Write a query to assign a RANK and a DENSE_RANK to each student based on the number of courses they are enrolled in (in descending order). If multiple students are enrolled in the same number of courses, they should receive the same rank.
+Return the output with the following columns:
+student_id
+name
+course_count (total number of enrollments per student)
+rank_by_enrollments (using RANK())
+dense_rank_by_enrollments (using DENSE_RANK())
+Order the final result by rank_by_enrollments.
+
+Expected Output
+
+SQL Medium: Movies Watched by Viewers of 'Life of Pi'
+Database Description
+The movie_streaming database is designed to manage and monitor digital content consumption across users. It maintains detailed records of user profiles, movie metadata, genre classifications, individual viewing history, and subscription plans. This system enables in-depth analysis of user preferences, viewing trends, and billing activities, supporting personalized recommendations and subscription management.
+
+Problem Statement
+List all movies that have been watched by any user who has watched 'Life of Pi'. Duplicate movie titles must not appear in the result.
+
+Query to be Implemented
+Write a SQL query to retrieve:
+movie_id
+title
+Only include movies watched by users who have also watched 'Life of Pi'.
+
+Expected Output
